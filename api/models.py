@@ -7,6 +7,19 @@ class Meal(models.Model):
     title = models.CharField(max_length=32)
     description = models.TextField(max_length=360)
 
+
+    # Bu öğenin değerlendirme sayısını döndürür
+    def no_of_ratings(self):
+        ratings = Rating.objects.filter(meal=self)
+        return len(ratings)
+    
+
+    def avg_ratings(self):
+        ratings = Rating.objects.filter(meal=self)
+        total = sum(r.stars for r in ratings)
+        avg = total / len(ratings) if ratings else 0
+        return avg
+
     def __str__(self):
         return self.title
     
